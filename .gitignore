@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+env/
+venv/
+*.egg-info/
+
+# Jupyter & IDEs
+.ipynb_checkpoints/
+.vscode/
+.idea/
+
+# Data & Large Artifacts
+data/*.csv
+*.pkl
+*.joblib
+*.onnx
+
+# MLflow local runs
+mlruns/
+*.db
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+.terraform.lock.hcl
+
+# Environment & Secrets
+.env
+*.pem
