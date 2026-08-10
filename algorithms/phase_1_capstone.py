@@ -1,6 +1,7 @@
 # Day 13: Phase 1 Capstone — Telco Customer Churn (Custom Workspace Algorithms)
 import os
 import sys
+import warnings
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -12,7 +13,7 @@ sys.path.append(os.path.abspath(".."))
 # 1. IMPORT YOUR CUSTOM FROM-SCRATCH ALGORITHMS FROM `algorithms/`
 from algorithms.logistic_regression import LogisticRegressionScratch
 from algorithms.decision_tree import DecisionTreeScratch
-from algorithms.svm import SVMScratch
+from algorithms.svm import LinearSVMScratch
 from algorithms.random_forest import RandomForestClassifierScratch
 from algorithms.adaBoost import AdaBoostClassifierScratch
 from algorithms.XGBoost import XGBoostClassifierScratch
@@ -25,6 +26,15 @@ from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
 from imblearn.over_sampling import SMOTE
+
+
+# Suppress a known scikit-learn deprecation warning emitted by the current
+# imbalanced-learn / scikit-learn version combination during fit_resample.
+warnings.filterwarnings(
+    "ignore",
+    module=r"sklearn\.base",
+    category=FutureWarning,
+)
 
 
 # =====================================================================
@@ -83,9 +93,9 @@ preprocessor = ColumnTransformer(
 # 3. BENCHMARK CUSTOM WORKSPACE ALGORITHMS ON STRATIFIED CV
 # =====================================================================
 scratch_models = {
-    "Logistic Regression (Scratch)": LogisticRegressionScratch(lr=0.05, epochs=500),
+    "Logistic Regression (Scratch)": LogisticRegressionScratch(learning_rate=0.05, epochs=500),
     "Decision Tree (Scratch)"      : DecisionTreeScratch(max_depth=6),
-    "Support Vector Machine (Scratch)": SVMScratch(C=1.0, lr=0.001, epochs=300),
+    "Support Vector Machine (Scratch)": LinearSVMScratch(C=1.0, lr=0.001, epochs=300),
     "Random Forest (Scratch)"      : RandomForestClassifierScratch(n_estimators=30, max_depth=6),
     "AdaBoost (Scratch)"           : AdaBoostClassifierScratch(n_estimators=30),
     "XGBoost (Scratch)"            : XGBoostClassifierScratch(n_estimators=20, learning_rate=0.1, max_depth=3)
