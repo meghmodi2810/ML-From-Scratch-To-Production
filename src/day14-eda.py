@@ -4,6 +4,10 @@ import time
 import datetime
 import numpy as np
 import pandas as pd
+import matplotlib
+
+matplotlib.use("Agg")
+
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -14,8 +18,13 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder, OrdinalEncoder
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
+from sklearn.ensemble import HistGradientBoostingClassifier
 from imblearn.over_sampling import SMOTE
-from xgboost import XGBClassifier
+
+try:
+    from xgboost import XGBClassifier
+except Exception:
+    XGBClassifier = None
 
 # Create directory for manual run plot artifacts
 os.makedirs("../artifacts/day14", exist_ok=True)
@@ -46,6 +55,19 @@ df.loc[mask, "TotalCharges"] = np.nan
 print("=" * 75)
 print("DAY 14: STATISTICAL EDA ON TELCO CHURN DATASET")
 print("=" * 75)
+
+
+def make_classifier(params):
+    if XGBClassifier is not None:
+        return XGBClassifier(**params, eval_metric="logloss", random_state=42)
+
+    print("XGBoost could not be loaded; using HistGradientBoostingClassifier fallback.")
+    return HistGradientBoostingClassifier(
+        learning_rate=params["learning_rate"],
+        max_depth=params["max_depth"],
+        max_iter=params["n_estimators"],
+        random_state=42,
+    )
 
 # A. Point-Biserial Correlation for Continuous Features
 num_cols = ["tenure", "MonthlyCharges", "TotalCharges"]
@@ -126,8 +148,8 @@ for run_id, params in enumerate(hyperparam_grid, start=1):
         smote = SMOTE(random_state=42)
         X_tr_res, y_tr_res = smote.fit_resample(X_tr_proc, y_train)
         
-        # Train XGBoost model
-        model = XGBClassifier(**params, eval_metric="logloss", random_state=42)
+        # Train gradient boosting model
+        model = make_classifier(params)
         model.fit(X_tr_res, y_tr_res)
         
         y_pred = model.predict(X_val_proc)
@@ -206,4 +228,8 @@ axes[1].set_xlabel("Chi-Square Statistic (χ²)")
 axes[1].grid(True, linestyle=":", alpha=0.6)
 
 plt.tight_layout()
-plt.show()
+summary_artifact_path = "../artifacts/day14/day14_summary.png"
+plt.savefig(summary_artifact_path, bbox_inches="tight")
+plt.close(fig)
+
+print(f"Summary plot saved to {summary_artifact_path}")
