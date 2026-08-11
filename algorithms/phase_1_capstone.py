@@ -4,7 +4,7 @@ import sys
 import warnings
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
+import matplotlib.pyplot 
 import seaborn as sns
 
 # Ensure project root is in path to import from 'algorithms' and 'src'
