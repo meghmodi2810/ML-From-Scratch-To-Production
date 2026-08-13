@@ -1,0 +1,26 @@
+[2026-08-13T13:11:49.955+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: tlc_yellow_taxi_training_pipeline.train_model scheduled__2026-08-02T00:00:00+00:00 [queued]>
+[2026-08-13T13:11:49.977+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: tlc_yellow_taxi_training_pipeline.train_model scheduled__2026-08-02T00:00:00+00:00 [queued]>
+[2026-08-13T13:11:49.978+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 2
+[2026-08-13T13:11:50.008+0000] {taskinstance.py:2191} INFO - Executing <Task(_PythonDecoratedOperator): train_model> on 2026-08-02 00:00:00+00:00
+[2026-08-13T13:11:50.026+0000] {standard_task_runner.py:60} INFO - Started process 166 to run task
+[2026-08-13T13:11:50.035+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'tlc_yellow_taxi_training_pipeline', 'train_model', 'scheduled__2026-08-02T00:00:00+00:00', '--job-id', '10', '--raw', '--subdir', 'DAGS_FOLDER/training_pipeline.py', '--cfg-path', '/tmp/tmpdhdrfzza']
+[2026-08-13T13:11:50.047+0000] {standard_task_runner.py:88} INFO - Job 10: Subtask train_model
+[2026-08-13T13:11:50.515+0000] {task_command.py:423} INFO - Running <TaskInstance: tlc_yellow_taxi_training_pipeline.train_model scheduled__2026-08-02T00:00:00+00:00 [running]> on host e42abee83b68
+[2026-08-13T13:11:50.743+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='mlops_team' AIRFLOW_CTX_DAG_ID='tlc_yellow_taxi_training_pipeline' AIRFLOW_CTX_TASK_ID='train_model' AIRFLOW_CTX_EXECUTION_DATE='2026-08-02T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-08-02T00:00:00+00:00'
+[2026-08-13T13:11:50.752+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/decorators/base.py", line 241, in execute
+    return_value = super().execute(context)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 199, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 216, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/opt/airflow/dags/training_pipeline.py", line 87, in train_model
+    import mlflow
+ModuleNotFoundError: No module named 'mlflow'
+[2026-08-13T13:11:50.784+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=tlc_yellow_taxi_training_pipeline, task_id=train_model, execution_date=20260802T000000, start_date=20260813T131149, end_date=20260813T131150
+[2026-08-13T13:11:50.812+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 10 for task train_model (No module named 'mlflow'; 166)
+[2026-08-13T13:11:50.857+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2026-08-13T13:11:51.248+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check
