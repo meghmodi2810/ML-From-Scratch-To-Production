@@ -47,7 +47,7 @@ def test_model_overfits_batch_sanity_check(sample_valid_taxi_df):
     y = sample_valid_taxi_df["high_tip_indicator"].values
     
     X_proc = preprocessor.fit_transform(X)
-    model = XGBClassifier(n_estimators=20, max_depth=3, random_state=42)
+    model = XGBClassifier(n_estimators=20, max_depth=3, min_child_weight=0, random_state=42)
     model.fit(X_proc, y)
     
     preds = model.predict(X_proc)

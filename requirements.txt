@@ -11,10 +11,13 @@ xgboost
 mlflow
 imbalanced-learn
 psycopg2
-psycopg2-binary
-boto3
+
 python-dotenv
 dotenv
 optuna>=4.6.0
 apache-airflow==2.8.1
 pandera
+
+psycopg2-binary>=2.9.9
+boto3>=1.34.0
+pendulum>=3.0.0
