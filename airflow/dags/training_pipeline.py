@@ -5,6 +5,12 @@ import numpy as np
 import pandas as pd
 from datetime import datetime, timedelta
 
+import mlflow
+import mlflow.xgboost
+from xgboost import XGBClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import f1_score, roc_auc_score
+
 from airflow.decorators import dag, task
 
 # Default execution arguments applied across all DAG tasks
@@ -19,10 +25,10 @@ default_args = {
 
 # Determine MLflow tracking URI pointing to root backend.db
 if os.path.exists("/opt/airflow/backend.db"):
-    MLFLOW_TRACKING_URI = "sqlite:////opt/airflow/backend.db"
+    MLFLOW_TRACKING_URI = "sqlite:////opt/airflow/backend.db?timeout=60"
 else:
     _root_db = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "backend.db"))
-    MLFLOW_TRACKING_URI = f"sqlite:///{_root_db.replace(os.sep, '/')}"
+    MLFLOW_TRACKING_URI = f"sqlite:///{_root_db.replace(os.sep, '/')}?timeout=60"
 
 @dag(
     dag_id="tlc_yellow_taxi_training_pipeline",
@@ -84,11 +90,6 @@ def taxi_training_pipeline():
     @task()
     def train_model(processed_data_path: str) -> dict:
         """Trains XGBoost model on preprocessed data and logs to MLflow."""
-        import mlflow
-        import mlflow.xgboost
-        from xgboost import XGBClassifier
-        from sklearn.model_selection import train_test_split
-        
         df = pd.read_parquet(processed_data_path)
         
         X = df[["trip_distance", "fare_amount", "tolls_amount"]]
@@ -124,11 +125,6 @@ def taxi_training_pipeline():
     @task()
     def evaluate_model(train_output: dict) -> dict:
         """Evaluates trained model metrics and updates MLflow run."""
-        import mlflow
-        from xgboost import XGBClassifier
-        from sklearn.metrics import f1_score, roc_auc_score
-        from sklearn.model_selection import train_test_split
-        
         df = pd.read_parquet(train_output["processed_data_path"])
         X = df[["trip_distance", "fare_amount", "tolls_amount"]]
         y = df["high_tip_indicator"].values
@@ -162,8 +158,6 @@ def taxi_training_pipeline():
     @task()
     def register_model(eval_output: dict):
         """Registers candidate model in MLflow Registry if it passes Quality Gate."""
-        import mlflow
-        
         min_f1_threshold = 0.50
         
         if eval_output["f1_score"] >= min_f1_threshold:
@@ -184,4 +178,4 @@ def taxi_training_pipeline():
     register_model(eval_res)
 
 # Instantiate the DAG
-dag_instance = taxi_training_pipeline()
+dag_instance = taxi_training_pipeline()

@@ -17,3 +17,4 @@ python-dotenv
 dotenv
 optuna>=4.6.0
 apache-airflow==2.8.1
+pandera

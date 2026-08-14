@@ -1,0 +1,213 @@
+[2026-08-13T17:43:06.184+0000] {processor.py:161} INFO - Started process (PID=231) to work on /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:43:06.192+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/training_pipeline_with_CT.py for tasks to queue
+[2026-08-13T17:43:06.218+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:43:06.215+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:43:26.019+0000] {processor.py:840} INFO - DAG(s) 'robust_tlc_yellow_taxi_ct_pipeline' retrieved from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:43:28.807+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:43:28.804+0000] {override.py:1769} INFO - Created Permission View: can read on DAG:robust_tlc_yellow_taxi_ct_pipeline
+[2026-08-13T17:43:28.875+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:43:28.875+0000] {override.py:1769} INFO - Created Permission View: can edit on DAG:robust_tlc_yellow_taxi_ct_pipeline
+[2026-08-13T17:43:28.922+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:43:28.921+0000] {override.py:1769} INFO - Created Permission View: can delete on DAG:robust_tlc_yellow_taxi_ct_pipeline
+[2026-08-13T17:43:28.926+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:43:28.925+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-08-13T17:43:29.011+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:43:29.010+0000] {dag.py:3058} INFO - Creating ORM DAG for robust_tlc_yellow_taxi_ct_pipeline
+[2026-08-13T17:43:29.089+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:43:29.088+0000] {dag.py:3823} INFO - Setting next_dagrun for robust_tlc_yellow_taxi_ct_pipeline to 2026-08-02 00:00:00+00:00, run_after=2026-08-09 00:00:00+00:00
+[2026-08-13T17:43:29.193+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/training_pipeline_with_CT.py took 23.085 seconds
+[2026-08-13T17:44:00.607+0000] {processor.py:161} INFO - Started process (PID=249) to work on /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:44:00.644+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/training_pipeline_with_CT.py for tasks to queue
+[2026-08-13T17:44:00.817+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:44:00.786+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:45:19.909+0000] {processor.py:161} INFO - Started process (PID=266) to work on /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:45:19.971+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/training_pipeline_with_CT.py for tasks to queue
+[2026-08-13T17:45:20.049+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:45:20.001+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:46:04.514+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:46:04.496+0000] {timeout.py:68} ERROR - Process timed out, PID: 266
+[2026-08-13T17:46:04.518+0000] {logging_mixin.py:188} WARNING - Exception ignored in: <function WeakKeyDictionary.__init__.<locals>.remove at 0x7d4c6cc21dc0>
+[2026-08-13T17:46:04.520+0000] {logging_mixin.py:188} WARNING - Traceback (most recent call last):
+[2026-08-13T17:46:04.521+0000] {logging_mixin.py:188} WARNING -   File "/usr/local/lib/python3.8/weakref.py", line 345, in remove
+[2026-08-13T17:46:04.528+0000] {logging_mixin.py:188} WARNING -     def remove(k, selfref=ref(self)):
+[2026-08-13T17:46:04.529+0000] {logging_mixin.py:188} WARNING -   File "/home/airflow/.local/lib/python3.8/site-packages/airflow/utils/timeout.py", line 69, in handle_timeout
+[2026-08-13T17:46:04.531+0000] {logging_mixin.py:188} WARNING -     raise AirflowTaskTimeout(self.error_message)
+[2026-08-13T17:46:04.532+0000] {logging_mixin.py:188} WARNING - airflow.exceptions.AirflowTaskTimeout: DagBag import timeout for /opt/airflow/dags/training_pipeline_with_CT.py after 30.0s.
+Please take a look at these docs to improve your DAG import time:
+* https://airflow.apache.org/docs/apache-airflow/2.8.1/best-practices.html#top-level-python-code
+* https://airflow.apache.org/docs/apache-airflow/2.8.1/best-practices.html#reducing-dag-complexity, PID: 266
+[2026-08-13T17:46:04.951+0000] {processor.py:840} INFO - DAG(s) 'robust_tlc_yellow_taxi_ct_pipeline' retrieved from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:46:05.517+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:46:05.515+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-08-13T17:46:05.633+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:46:05.631+0000] {dag.py:3823} INFO - Setting next_dagrun for robust_tlc_yellow_taxi_ct_pipeline to 2026-08-02 00:00:00+00:00, run_after=2026-08-09 00:00:00+00:00
+[2026-08-13T17:46:05.795+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/training_pipeline_with_CT.py took 46.828 seconds
+[2026-08-13T17:46:37.337+0000] {processor.py:161} INFO - Started process (PID=282) to work on /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:46:37.372+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/training_pipeline_with_CT.py for tasks to queue
+[2026-08-13T17:46:37.396+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:46:37.386+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:46:45.446+0000] {processor.py:840} INFO - DAG(s) 'robust_tlc_yellow_taxi_ct_pipeline' retrieved from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:46:45.659+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:46:45.658+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-08-13T17:46:45.748+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:46:45.748+0000] {dag.py:3823} INFO - Setting next_dagrun for robust_tlc_yellow_taxi_ct_pipeline to 2026-08-02 00:00:00+00:00, run_after=2026-08-09 00:00:00+00:00
+[2026-08-13T17:46:45.807+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/training_pipeline_with_CT.py took 8.684 seconds
+[2026-08-13T17:47:16.034+0000] {processor.py:161} INFO - Started process (PID=300) to work on /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:47:16.037+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/training_pipeline_with_CT.py for tasks to queue
+[2026-08-13T17:47:16.040+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:47:16.039+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:47:16.923+0000] {processor.py:840} INFO - DAG(s) 'robust_tlc_yellow_taxi_ct_pipeline' retrieved from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:47:17.038+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:47:17.037+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-08-13T17:47:17.077+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:47:17.076+0000] {dag.py:3823} INFO - Setting next_dagrun for robust_tlc_yellow_taxi_ct_pipeline to 2026-08-02 00:00:00+00:00, run_after=2026-08-09 00:00:00+00:00
+[2026-08-13T17:47:17.121+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/training_pipeline_with_CT.py took 1.094 seconds
+[2026-08-13T17:47:47.312+0000] {processor.py:161} INFO - Started process (PID=310) to work on /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:47:47.314+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/training_pipeline_with_CT.py for tasks to queue
+[2026-08-13T17:47:47.316+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:47:47.315+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:47:48.038+0000] {processor.py:840} INFO - DAG(s) 'robust_tlc_yellow_taxi_ct_pipeline' retrieved from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:47:48.116+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:47:48.115+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-08-13T17:47:48.162+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:47:48.161+0000] {dag.py:3823} INFO - Setting next_dagrun for robust_tlc_yellow_taxi_ct_pipeline to 2026-08-02 00:00:00+00:00, run_after=2026-08-09 00:00:00+00:00
+[2026-08-13T17:47:48.209+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/training_pipeline_with_CT.py took 0.902 seconds
+[2026-08-13T17:48:18.942+0000] {processor.py:161} INFO - Started process (PID=320) to work on /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:48:18.944+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/training_pipeline_with_CT.py for tasks to queue
+[2026-08-13T17:48:18.947+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:48:18.946+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:48:19.580+0000] {processor.py:840} INFO - DAG(s) 'robust_tlc_yellow_taxi_ct_pipeline' retrieved from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:48:19.672+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:48:19.671+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-08-13T17:48:19.726+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:48:19.724+0000] {dag.py:3823} INFO - Setting next_dagrun for robust_tlc_yellow_taxi_ct_pipeline to 2026-08-02 00:00:00+00:00, run_after=2026-08-09 00:00:00+00:00
+[2026-08-13T17:48:19.773+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/training_pipeline_with_CT.py took 0.836 seconds
+[2026-08-13T17:48:50.167+0000] {processor.py:161} INFO - Started process (PID=331) to work on /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:48:50.170+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/training_pipeline_with_CT.py for tasks to queue
+[2026-08-13T17:48:50.172+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:48:50.171+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:48:50.953+0000] {processor.py:840} INFO - DAG(s) 'robust_tlc_yellow_taxi_ct_pipeline' retrieved from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:48:51.027+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:48:51.027+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-08-13T17:48:51.055+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:48:51.054+0000] {dag.py:3823} INFO - Setting next_dagrun for robust_tlc_yellow_taxi_ct_pipeline to 2026-08-02 00:00:00+00:00, run_after=2026-08-09 00:00:00+00:00
+[2026-08-13T17:48:51.082+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/training_pipeline_with_CT.py took 0.920 seconds
+[2026-08-13T17:49:21.873+0000] {processor.py:161} INFO - Started process (PID=341) to work on /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:49:21.892+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/training_pipeline_with_CT.py for tasks to queue
+[2026-08-13T17:49:21.909+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:49:21.905+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:49:25.793+0000] {processor.py:840} INFO - DAG(s) 'robust_tlc_yellow_taxi_ct_pipeline' retrieved from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:49:25.918+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:49:25.917+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-08-13T17:49:26.004+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:49:26.002+0000] {dag.py:3823} INFO - Setting next_dagrun for robust_tlc_yellow_taxi_ct_pipeline to 2026-08-02 00:00:00+00:00, run_after=2026-08-09 00:00:00+00:00
+[2026-08-13T17:49:26.057+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/training_pipeline_with_CT.py took 4.309 seconds
+[2026-08-13T17:49:56.549+0000] {processor.py:161} INFO - Started process (PID=351) to work on /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:49:56.553+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/training_pipeline_with_CT.py for tasks to queue
+[2026-08-13T17:49:56.557+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:49:56.555+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:49:57.918+0000] {processor.py:840} INFO - DAG(s) 'robust_tlc_yellow_taxi_ct_pipeline' retrieved from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:49:58.056+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:49:58.055+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-08-13T17:49:58.121+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:49:58.121+0000] {dag.py:3823} INFO - Setting next_dagrun for robust_tlc_yellow_taxi_ct_pipeline to 2026-08-02 00:00:00+00:00, run_after=2026-08-09 00:00:00+00:00
+[2026-08-13T17:49:58.182+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/training_pipeline_with_CT.py took 1.641 seconds
+[2026-08-13T17:50:28.461+0000] {processor.py:161} INFO - Started process (PID=361) to work on /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:50:28.466+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/training_pipeline_with_CT.py for tasks to queue
+[2026-08-13T17:50:28.471+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:50:28.469+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:50:29.220+0000] {processor.py:840} INFO - DAG(s) 'robust_tlc_yellow_taxi_ct_pipeline' retrieved from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:50:29.306+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:50:29.304+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-08-13T17:50:29.335+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:50:29.335+0000] {dag.py:3823} INFO - Setting next_dagrun for robust_tlc_yellow_taxi_ct_pipeline to 2026-08-02 00:00:00+00:00, run_after=2026-08-09 00:00:00+00:00
+[2026-08-13T17:50:29.364+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/training_pipeline_with_CT.py took 0.911 seconds
+[2026-08-13T17:50:59.632+0000] {processor.py:161} INFO - Started process (PID=371) to work on /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:50:59.635+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/training_pipeline_with_CT.py for tasks to queue
+[2026-08-13T17:50:59.638+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:50:59.638+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:51:00.270+0000] {processor.py:840} INFO - DAG(s) 'robust_tlc_yellow_taxi_ct_pipeline' retrieved from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:51:00.351+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:51:00.351+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-08-13T17:51:00.390+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:51:00.389+0000] {dag.py:3823} INFO - Setting next_dagrun for robust_tlc_yellow_taxi_ct_pipeline to 2026-08-02 00:00:00+00:00, run_after=2026-08-09 00:00:00+00:00
+[2026-08-13T17:51:00.434+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/training_pipeline_with_CT.py took 0.808 seconds
+[2026-08-13T17:51:30.814+0000] {processor.py:161} INFO - Started process (PID=382) to work on /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:51:30.816+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/training_pipeline_with_CT.py for tasks to queue
+[2026-08-13T17:51:30.818+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:51:30.817+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:51:31.661+0000] {processor.py:840} INFO - DAG(s) 'robust_tlc_yellow_taxi_ct_pipeline' retrieved from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:51:31.733+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:51:31.732+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-08-13T17:51:31.761+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:51:31.760+0000] {dag.py:3823} INFO - Setting next_dagrun for robust_tlc_yellow_taxi_ct_pipeline to 2026-08-02 00:00:00+00:00, run_after=2026-08-09 00:00:00+00:00
+[2026-08-13T17:51:31.785+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/training_pipeline_with_CT.py took 0.976 seconds
+[2026-08-13T17:52:02.003+0000] {processor.py:161} INFO - Started process (PID=392) to work on /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:52:02.009+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/training_pipeline_with_CT.py for tasks to queue
+[2026-08-13T17:52:02.012+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:52:02.011+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:52:05.459+0000] {processor.py:840} INFO - DAG(s) 'robust_tlc_yellow_taxi_ct_pipeline' retrieved from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:52:05.584+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:52:05.583+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-08-13T17:52:05.633+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:52:05.633+0000] {dag.py:3823} INFO - Setting next_dagrun for robust_tlc_yellow_taxi_ct_pipeline to 2026-08-02 00:00:00+00:00, run_after=2026-08-09 00:00:00+00:00
+[2026-08-13T17:52:05.710+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/training_pipeline_with_CT.py took 3.713 seconds
+[2026-08-13T17:52:36.434+0000] {processor.py:161} INFO - Started process (PID=402) to work on /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:52:36.436+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/training_pipeline_with_CT.py for tasks to queue
+[2026-08-13T17:52:36.438+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:52:36.437+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:52:37.100+0000] {processor.py:840} INFO - DAG(s) 'robust_tlc_yellow_taxi_ct_pipeline' retrieved from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:52:37.169+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:52:37.169+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-08-13T17:52:37.196+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:52:37.196+0000] {dag.py:3823} INFO - Setting next_dagrun for robust_tlc_yellow_taxi_ct_pipeline to 2026-08-02 00:00:00+00:00, run_after=2026-08-09 00:00:00+00:00
+[2026-08-13T17:52:37.222+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/training_pipeline_with_CT.py took 0.796 seconds
+[2026-08-13T17:53:08.409+0000] {processor.py:161} INFO - Started process (PID=413) to work on /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:53:08.443+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/training_pipeline_with_CT.py for tasks to queue
+[2026-08-13T17:53:08.456+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:53:08.453+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:53:18.152+0000] {processor.py:840} INFO - DAG(s) 'robust_tlc_yellow_taxi_ct_pipeline' retrieved from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:53:19.063+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:53:19.058+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-08-13T17:53:19.273+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:53:19.272+0000] {dag.py:3823} INFO - Setting next_dagrun for robust_tlc_yellow_taxi_ct_pipeline to 2026-08-02 00:00:00+00:00, run_after=2026-08-09 00:00:00+00:00
+[2026-08-13T17:53:19.470+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/training_pipeline_with_CT.py took 11.091 seconds
+[2026-08-13T17:53:50.555+0000] {processor.py:161} INFO - Started process (PID=430) to work on /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:53:50.568+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/training_pipeline_with_CT.py for tasks to queue
+[2026-08-13T17:53:50.583+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:53:50.577+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:53:53.577+0000] {processor.py:840} INFO - DAG(s) 'robust_tlc_yellow_taxi_ct_pipeline' retrieved from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:53:53.696+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:53:53.694+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-08-13T17:53:53.746+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:53:53.745+0000] {dag.py:3823} INFO - Setting next_dagrun for robust_tlc_yellow_taxi_ct_pipeline to 2026-08-02 00:00:00+00:00, run_after=2026-08-09 00:00:00+00:00
+[2026-08-13T17:53:53.800+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/training_pipeline_with_CT.py took 3.319 seconds
+[2026-08-13T17:54:22.360+0000] {processor.py:161} INFO - Started process (PID=442) to work on /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:54:22.363+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/training_pipeline_with_CT.py for tasks to queue
+[2026-08-13T17:54:22.364+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:54:22.364+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:54:23.269+0000] {processor.py:840} INFO - DAG(s) 'robust_tlc_yellow_taxi_ct_pipeline' retrieved from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:54:23.343+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:54:23.342+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-08-13T17:54:23.368+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:54:23.368+0000] {dag.py:3823} INFO - Setting next_dagrun for robust_tlc_yellow_taxi_ct_pipeline to 2026-08-02 00:00:00+00:00, run_after=2026-08-09 00:00:00+00:00
+[2026-08-13T17:54:23.418+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/training_pipeline_with_CT.py took 1.074 seconds
+[2026-08-13T17:54:53.706+0000] {processor.py:161} INFO - Started process (PID=452) to work on /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:54:53.709+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/training_pipeline_with_CT.py for tasks to queue
+[2026-08-13T17:54:53.710+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:54:53.710+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:54:54.287+0000] {processor.py:840} INFO - DAG(s) 'robust_tlc_yellow_taxi_ct_pipeline' retrieved from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:54:54.355+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:54:54.354+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-08-13T17:54:54.388+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:54:54.388+0000] {dag.py:3823} INFO - Setting next_dagrun for robust_tlc_yellow_taxi_ct_pipeline to 2026-08-02 00:00:00+00:00, run_after=2026-08-09 00:00:00+00:00
+[2026-08-13T17:54:54.428+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/training_pipeline_with_CT.py took 0.727 seconds
+[2026-08-13T17:55:24.846+0000] {processor.py:161} INFO - Started process (PID=462) to work on /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:55:24.848+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/training_pipeline_with_CT.py for tasks to queue
+[2026-08-13T17:55:24.850+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:55:24.849+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:55:25.526+0000] {processor.py:840} INFO - DAG(s) 'robust_tlc_yellow_taxi_ct_pipeline' retrieved from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:55:25.632+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:55:25.631+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-08-13T17:55:25.667+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:55:25.667+0000] {dag.py:3823} INFO - Setting next_dagrun for robust_tlc_yellow_taxi_ct_pipeline to 2026-08-02 00:00:00+00:00, run_after=2026-08-09 00:00:00+00:00
+[2026-08-13T17:55:25.695+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/training_pipeline_with_CT.py took 0.862 seconds
+[2026-08-13T17:55:56.317+0000] {processor.py:161} INFO - Started process (PID=472) to work on /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:55:56.321+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/training_pipeline_with_CT.py for tasks to queue
+[2026-08-13T17:55:56.323+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:55:56.322+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:55:57.312+0000] {processor.py:840} INFO - DAG(s) 'robust_tlc_yellow_taxi_ct_pipeline' retrieved from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:55:57.397+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:55:57.397+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-08-13T17:55:57.434+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:55:57.433+0000] {dag.py:3823} INFO - Setting next_dagrun for robust_tlc_yellow_taxi_ct_pipeline to 2026-08-02 00:00:00+00:00, run_after=2026-08-09 00:00:00+00:00
+[2026-08-13T17:55:57.475+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/training_pipeline_with_CT.py took 1.165 seconds
+[2026-08-13T17:56:28.488+0000] {processor.py:161} INFO - Started process (PID=482) to work on /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:56:28.521+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/training_pipeline_with_CT.py for tasks to queue
+[2026-08-13T17:56:28.566+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:56:28.553+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:56:33.390+0000] {processor.py:840} INFO - DAG(s) 'robust_tlc_yellow_taxi_ct_pipeline' retrieved from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:56:33.504+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:56:33.503+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-08-13T17:56:33.555+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:56:33.554+0000] {dag.py:3823} INFO - Setting next_dagrun for robust_tlc_yellow_taxi_ct_pipeline to 2026-08-02 00:00:00+00:00, run_after=2026-08-09 00:00:00+00:00
+[2026-08-13T17:56:33.605+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/training_pipeline_with_CT.py took 5.208 seconds
+[2026-08-13T17:57:04.127+0000] {processor.py:161} INFO - Started process (PID=492) to work on /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:57:04.130+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/training_pipeline_with_CT.py for tasks to queue
+[2026-08-13T17:57:04.137+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:57:04.134+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:57:07.799+0000] {processor.py:840} INFO - DAG(s) 'robust_tlc_yellow_taxi_ct_pipeline' retrieved from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:57:08.017+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:57:08.016+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-08-13T17:57:08.115+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:57:08.114+0000] {dag.py:3823} INFO - Setting next_dagrun for robust_tlc_yellow_taxi_ct_pipeline to 2026-08-02 00:00:00+00:00, run_after=2026-08-09 00:00:00+00:00
+[2026-08-13T17:57:08.199+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/training_pipeline_with_CT.py took 4.090 seconds
+[2026-08-13T17:57:38.541+0000] {processor.py:161} INFO - Started process (PID=504) to work on /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:57:38.548+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/training_pipeline_with_CT.py for tasks to queue
+[2026-08-13T17:57:38.552+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:57:38.550+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:57:40.025+0000] {processor.py:840} INFO - DAG(s) 'robust_tlc_yellow_taxi_ct_pipeline' retrieved from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:57:40.285+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:57:40.280+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-08-13T17:57:40.392+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:57:40.392+0000] {dag.py:3823} INFO - Setting next_dagrun for robust_tlc_yellow_taxi_ct_pipeline to 2026-08-02 00:00:00+00:00, run_after=2026-08-09 00:00:00+00:00
+[2026-08-13T17:57:40.505+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/training_pipeline_with_CT.py took 1.986 seconds
+[2026-08-13T17:58:10.962+0000] {processor.py:161} INFO - Started process (PID=514) to work on /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:58:10.966+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/training_pipeline_with_CT.py for tasks to queue
+[2026-08-13T17:58:10.968+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:58:10.967+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:58:11.943+0000] {processor.py:840} INFO - DAG(s) 'robust_tlc_yellow_taxi_ct_pipeline' retrieved from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:58:12.092+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:58:12.091+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-08-13T17:58:12.138+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:58:12.137+0000] {dag.py:3823} INFO - Setting next_dagrun for robust_tlc_yellow_taxi_ct_pipeline to 2026-08-02 00:00:00+00:00, run_after=2026-08-09 00:00:00+00:00
+[2026-08-13T17:58:12.174+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/training_pipeline_with_CT.py took 1.227 seconds
+[2026-08-13T17:58:42.451+0000] {processor.py:161} INFO - Started process (PID=523) to work on /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:58:42.454+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/training_pipeline_with_CT.py for tasks to queue
+[2026-08-13T17:58:42.455+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:58:42.455+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:58:43.307+0000] {processor.py:840} INFO - DAG(s) 'robust_tlc_yellow_taxi_ct_pipeline' retrieved from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:58:43.382+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:58:43.381+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-08-13T17:58:43.416+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:58:43.415+0000] {dag.py:3823} INFO - Setting next_dagrun for robust_tlc_yellow_taxi_ct_pipeline to 2026-08-02 00:00:00+00:00, run_after=2026-08-09 00:00:00+00:00
+[2026-08-13T17:58:43.451+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/training_pipeline_with_CT.py took 1.007 seconds
+[2026-08-13T17:59:14.873+0000] {processor.py:161} INFO - Started process (PID=534) to work on /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:59:14.899+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/training_pipeline_with_CT.py for tasks to queue
+[2026-08-13T17:59:14.915+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:59:14.905+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:59:25.671+0000] {processor.py:840} INFO - DAG(s) 'robust_tlc_yellow_taxi_ct_pipeline' retrieved from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T17:59:26.004+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:59:26.000+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-08-13T17:59:26.150+0000] {logging_mixin.py:188} INFO - [2026-08-13T17:59:26.148+0000] {dag.py:3823} INFO - Setting next_dagrun for robust_tlc_yellow_taxi_ct_pipeline to 2026-08-09 00:00:00+00:00, run_after=2026-08-16 00:00:00+00:00
+[2026-08-13T17:59:26.258+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/training_pipeline_with_CT.py took 11.599 seconds
+[2026-08-13T18:00:02.467+0000] {processor.py:161} INFO - Started process (PID=550) to work on /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T18:00:02.500+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/training_pipeline_with_CT.py for tasks to queue
+[2026-08-13T18:00:02.528+0000] {logging_mixin.py:188} INFO - [2026-08-13T18:00:02.526+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T18:00:32.212+0000] {processor.py:840} INFO - DAG(s) 'robust_tlc_yellow_taxi_ct_pipeline' retrieved from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T18:00:34.255+0000] {logging_mixin.py:188} INFO - [2026-08-13T18:00:34.249+0000] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-08-13T18:00:35.001+0000] {logging_mixin.py:188} INFO - [2026-08-13T18:00:34.999+0000] {dag.py:3823} INFO - Setting next_dagrun for robust_tlc_yellow_taxi_ct_pipeline to 2026-08-09 00:00:00+00:00, run_after=2026-08-16 00:00:00+00:00
+[2026-08-13T18:00:35.676+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/training_pipeline_with_CT.py took 33.439 seconds
+[2026-08-13T18:01:18.895+0000] {processor.py:161} INFO - Started process (PID=566) to work on /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T18:01:19.074+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/training_pipeline_with_CT.py for tasks to queue
+[2026-08-13T18:01:19.234+0000] {logging_mixin.py:188} INFO - [2026-08-13T18:01:19.151+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T18:02:42.443+0000] {processor.py:161} INFO - Started process (PID=582) to work on /opt/airflow/dags/training_pipeline_with_CT.py
+[2026-08-13T18:02:42.558+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/training_pipeline_with_CT.py for tasks to queue
+[2026-08-13T18:02:42.932+0000] {logging_mixin.py:188} INFO - [2026-08-13T18:02:42.768+0000] {dagbag.py:538} INFO - Filling up the DagBag from /opt/airflow/dags/training_pipeline_with_CT.py
