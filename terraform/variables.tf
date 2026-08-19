@@ -28,3 +28,39 @@ variable "ecr_repository_names" {
   description = "List of ECR repositories to provision for ML training and serving"
   default     = ["nyc-taxi-train", "nyc-taxi-serve"]
 }
+
+# ---------------------------------------------------------------------
+# NETWORKING VARIABLES
+# ---------------------------------------------------------------------
+variable "vpc_cidr" {
+  type        = string
+  description = "CIDR block for the custom MLOps VPC"
+  default     = "10.0.0.0/16"
+}
+
+variable "public_subnet_cidr" {
+  type        = string
+  description = "CIDR block for the public subnet"
+  default     = "10.0.1.0/24"
+}
+
+variable "allowed_ssh_cidr" {
+  type        = string
+  description = "CIDR block allowed to SSH into the EC2 instance"
+  default     = "0.0.0.0/0"
+}
+
+# ---------------------------------------------------------------------
+# COMPUTE VARIABLES
+# ---------------------------------------------------------------------
+variable "instance_type" {
+  type        = string
+  description = "EC2 instance type for model training and serving"
+  default     = "t3.small"
+}
+
+variable "key_name" {
+  type        = string
+  description = "Name of an existing AWS SSH Key Pair (leave blank if not using SSH key)"
+  default     = ""
+}

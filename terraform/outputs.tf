@@ -20,3 +20,56 @@ output "ecr_repository_urls" {
   }
   description = "Registry URLs for provisioned ECR container repositories"
 }
+
+# ---------------------------------------------------------------------
+# DAY 23: NETWORKING, IAM & COMPUTE OUTPUTS
+# ---------------------------------------------------------------------
+output "vpc_id" {
+  value       = aws_vpc.mlops_vpc.id
+  description = "ID of the provisioned MLOps VPC"
+}
+
+output "public_subnet_id" {
+  value       = aws_subnet.public_subnet.id
+  description = "ID of the public subnet"
+}
+
+output "ec2_security_group_id" {
+  value       = aws_security_group.ec2_sg.id
+  description = "ID of the EC2 security group"
+}
+
+output "ec2_iam_role_arn" {
+  value       = aws_iam_role.ec2_mlops_role.arn
+  description = "ARN of the EC2 IAM role with S3 and ECR access"
+}
+
+output "ec2_instance_id" {
+  value       = aws_instance.mlops_server.id
+  description = "ID of the provisioned EC2 MLOps compute instance"
+}
+
+output "ec2_public_ip" {
+  value       = aws_instance.mlops_server.public_ip
+  description = "Public IPv4 address of the EC2 MLOps compute instance"
+}
+
+output "ec2_public_dns" {
+  value       = aws_instance.mlops_server.public_dns
+  description = "Public DNS hostname of the EC2 MLOps compute instance"
+}
+
+output "fastapi_swagger_url" {
+  value       = "http://${aws_instance.mlops_server.public_ip}:8000/docs"
+  description = "Swagger UI URL for the FastAPI serving endpoint"
+}
+
+output "mlflow_tracking_url" {
+  value       = "http://${aws_instance.mlops_server.public_ip}:5000"
+  description = "MLflow tracking server UI URL"
+}
+
+output "ssh_login_command" {
+  value       = "ssh -i <your-key.pem> ubuntu@${aws_instance.mlops_server.public_ip}"
+  description = "SSH connection string for remote administration"
+}
