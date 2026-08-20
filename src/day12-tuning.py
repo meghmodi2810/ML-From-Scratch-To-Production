@@ -1,10 +1,10 @@
 # Day 12: Cross-Validation, Diagnostic Curves, & Bayesian Optimization (Optuna)
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 import optuna
-from xgboost import XGBClassifier
 from sklearn.datasets import make_classification
 from sklearn.model_selection import StratifiedKFold, cross_val_score, learning_curve
+from xgboost import XGBClassifier
 
 # Suppress Optuna verbose logging
 optuna.logging.set_verbosity(optuna.logging.WARNING)
@@ -36,7 +36,7 @@ def objective(trial):
     model = XGBClassifier(**params)
     cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
     scores = cross_val_score(model, X, y, cv=cv, scoring="accuracy")
-    
+
     return float(np.mean(scores))
 
 print("Starting 30-trial Optuna Bayesian Optimization Study...")

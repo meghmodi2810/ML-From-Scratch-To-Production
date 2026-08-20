@@ -1,8 +1,7 @@
 # Day 16: Optuna Hyperparameter Tuning & MLflow Model Registry
-import os
-import sys
-import warnings
 import logging
+import os
+import warnings
 
 # Disable MLflow artifact progress bars and suppress warnings
 os.environ["MLFLOW_ENABLE_ARTIFACTS_PROGRESS_BAR"] = "false"
@@ -10,20 +9,19 @@ warnings.filterwarnings("ignore")
 logging.getLogger("mlflow").setLevel(logging.ERROR)
 logging.getLogger("alembic").setLevel(logging.ERROR)
 
-import numpy as np
-import pandas as pd
-import optuna
 import mlflow
 import mlflow.xgboost
-from mlflow.tracking import MlflowClient
-
-from sklearn.model_selection import StratifiedKFold
-from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import StandardScaler, OneHotEncoder, OrdinalEncoder
-from sklearn.impute import SimpleImputer
-from sklearn.pipeline import Pipeline
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
+import numpy as np
+import optuna
+import pandas as pd
 from imblearn.over_sampling import SMOTE
+from mlflow.tracking import MlflowClient
+from sklearn.compose import ColumnTransformer
+from sklearn.impute import SimpleImputer
+from sklearn.metrics import f1_score, roc_auc_score
+from sklearn.model_selection import StratifiedKFold
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder, StandardScaler
 from xgboost import XGBClassifier
 
 # Silence Optuna logging output
@@ -34,7 +32,7 @@ optuna.logging.set_verbosity(optuna.logging.WARNING)
 # =====================================================================
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_FILE = os.path.join(BASE_DIR, "backend.db")
-MLFLOW_DB_PATH = f"sqlite:///backend.db"
+MLFLOW_DB_PATH = "sqlite:///backend.db"
 EXPERIMENT_NAME = "NYC_Yellow_Taxi_Optuna_Tuning"
 REGISTERED_MODEL_NAME = "TLC_Taxi_Tip_Classifier"
 PROMOTION_THRESHOLD_F1 = 0.30  # Quality gate threshold for Production promotion
@@ -108,7 +106,7 @@ def objective(trial):
         mlflow.log_param("trial_number", trial.number + 1)
 
         f1s, aucs = [], []
-        
+
         for train_idx, val_idx in cv.split(X, y):
             X_train, y_train = X.iloc[train_idx], y[train_idx]
             X_val, y_val = X.iloc[val_idx], y[val_idx]

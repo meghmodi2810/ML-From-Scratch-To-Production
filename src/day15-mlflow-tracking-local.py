@@ -1,16 +1,18 @@
 # Notebook 1: MLflow Local Tracking Engine
 import os
-# pyrefly: ignore [missing-import]
-import mlflow
-# pyrefly: ignore [missing-import]
-import mlflow.xgboost
-import pandas as pd
-import numpy as np
+
 import matplotlib.pyplot as plt
 
-from sklearn.model_selection import StratifiedKFold
-from sklearn.preprocessing import StandardScaler
+# pyrefly: ignore [missing-import]
+import mlflow
+
+# pyrefly: ignore [missing-import]
+import mlflow.xgboost
+import numpy as np
+import pandas as pd
 from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
+from sklearn.preprocessing import StandardScaler
+
 # pyrefly: ignore [missing-import]
 from xgboost import XGBClassifier
 
@@ -46,37 +48,37 @@ with mlflow.start_run(run_name="Local_XGB_Baseline"):
     mlflow.log_params(params)
     mlflow.log_param("data_source", "TLC_Yellow_Taxi_2023_01_02")
     mlflow.log_param("backend_type", "SQLite_Local")
-    
+
     # B. Train Model
     model = XGBClassifier(**params, eval_metric="logloss", random_state=42)
     model.fit(X_scaled, y)
-    
+
     # C. Evaluate Metrics
     y_pred = model.predict(X_scaled)
     y_prob = model.predict_proba(X_scaled)[:, 1]
-    
+
     metrics = {
         "accuracy": accuracy_score(y, y_pred),
         "f1_score": f1_score(y, y_pred),
         "roc_auc": roc_auc_score(y, y_prob)
     }
     mlflow.log_metrics(metrics)
-    
+
     # D. Save Plot Artifact Locally
     plt.figure(figsize=(5, 4))
     plt.bar(metrics.keys(), metrics.values(), color="teal")
     plt.title("Local Run Evaluation Metrics")
     plt.ylim(0, 1.0)
     plt.tight_layout()
-    
+
     plot_path = "temp_artifacts/local_metrics.png"
     plt.savefig(plot_path)
     plt.close()
-    
+
     mlflow.log_artifact(plot_path, artifact_path="evaluation_plots")
-    
+
     # E. Log Model Binary
     mlflow.xgboost.log_model(model, artifact_path="model")
 
-print(f"Local Run Logged Successfully!")
-print(f"To open UI run: mlflow ui --backend-store-uri sqlite:///mlflow.db")
+print("Local Run Logged Successfully!")
+print("To open UI run: mlflow ui --backend-store-uri sqlite:///mlflow.db")

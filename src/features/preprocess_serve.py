@@ -1,10 +1,9 @@
 # src/features/preprocess.py
-import numpy as np
 import pandas as pd
 from sklearn.compose import ColumnTransformer
-from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
-from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 NUM_COLS = ["trip_distance", "fare_amount", "tolls_amount", "passenger_count"]
 CAT_COLS = ["PULocationID", "DOLocationID", "payment_type", "RatecodeID"]

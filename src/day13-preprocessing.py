@@ -1,13 +1,12 @@
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 import seaborn as sns
-
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import StandardScaler, OneHotEncoder, OrdinalEncoder
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder, StandardScaler
 
 
 class OutOfFoldTargetEncoder(BaseEstimator, TransformerMixin):
@@ -29,7 +28,7 @@ class OutOfFoldTargetEncoder(BaseEstimator, TransformerMixin):
             stats = y.groupby(X[col]).agg(["count", "mean"])
             counts = stats["count"]
             means = stats["mean"]
-            
+
             # Smoothed Target Encoding: (count * mean + smoothing * global) / (count + smoothing)
             smoothed = (counts * means + self.smoothing * self.global_mean_) / (counts + self.smoothing)
             self.encoding_map_[col] = smoothed.to_dict()
@@ -48,7 +47,7 @@ def build_telco_preprocessing_pipeline(
     num_cols: list, ohe_cols: list, ordinal_cols: list, ordinal_categories: list
 ) -> ColumnTransformer:
     """Builds a scikit-learn ColumnTransformer pipeline that prevents data leakage."""
-    
+
     # 1. Numerical Sub-pipeline (Median Imputation + Standard Scaling)
     num_pipeline = Pipeline([
         ("imputer", SimpleImputer(strategy="median")),

@@ -1,7 +1,9 @@
 # tests/test_schema.py
-import pytest
 import pandera as pa
-from src.validation.schema import validate_raw_data, RawTaxiSchema
+import pytest
+
+from src.validation.schema import RawTaxiSchema, validate_raw_data
+
 
 def test_valid_data_passes_schema(sample_valid_taxi_df):
     """Test that clean, valid data passes Pandera schema validation."""

@@ -1,11 +1,12 @@
-import numpy as np
+from typing import Generator, Tuple
+
 import matplotlib.pyplot as plt
-from typing import Tuple, List, Generator
+import numpy as np
 
 
 class StratifiedKFoldScratch:
     """Stratified k-Fold Cross-Validator implemented from scratch in pure NumPy.
-    
+
     Ensures exact class distribution proportions are preserved across every fold.
     """
 
@@ -56,7 +57,7 @@ def plot_learning_curves(model, X: np.ndarray, y: np.ndarray, cv_splits: int = 5
 
     for train_frac in train_sizes:
         sub_train_scores, sub_val_scores = [], []
-        
+
         for train_idx, val_idx in cv.split(X, y):
             # Subset the training split according to train_frac
             n_sub = max(5, int(len(train_idx) * train_frac))
@@ -66,7 +67,7 @@ def plot_learning_curves(model, X: np.ndarray, y: np.ndarray, cv_splits: int = 5
             X_val, y_val = X[val_idx], y[val_idx]
 
             model.fit(X_tr, y_tr)
-            
+
             tr_acc = np.mean(model.predict(X_tr) == y_tr)
             val_acc = np.mean(model.predict(X_val) == y_val)
 
@@ -80,7 +81,7 @@ def plot_learning_curves(model, X: np.ndarray, y: np.ndarray, cv_splits: int = 5
     plt.figure(figsize=(9, 5))
     plt.plot(train_sizes * 100, train_scores_mean, "o-", color="crimson", linewidth=2, label="Training Score")
     plt.plot(train_sizes * 100, val_scores_mean, "s-", color="navy", linewidth=2, label="Cross-Validation Score")
-    
+
     plt.title("Diagnostic Learning Curves (Bias vs. Variance Diagnosis)", fontsize=12, fontweight="bold")
     plt.xlabel("Percentage of Training Data Used (%)")
     plt.ylabel("Accuracy Score")

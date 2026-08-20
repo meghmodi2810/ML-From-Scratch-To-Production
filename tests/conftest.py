@@ -1,7 +1,8 @@
 # tests/conftest.py
-import pytest
 import numpy as np
 import pandas as pd
+import pytest
+
 
 @pytest.fixture
 def sample_valid_taxi_df():

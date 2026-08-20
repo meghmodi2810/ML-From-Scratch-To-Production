@@ -1,9 +1,9 @@
 import os
+
 import mlflow
 import mlflow.xgboost
-import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
+import pandas as pd
 
 # 1. LOAD ENVIRONMENT VARIABLES FROM .env FILE
 from dotenv import load_dotenv
@@ -55,11 +55,11 @@ params = {"n_estimators": 100, "max_depth": 4, "learning_rate": 0.05}
 
 with mlflow.start_run(run_name="Dotenv_AWS_MLflow_Run"):
     mlflow.log_params(params)
-    
+
     from xgboost import XGBClassifier
     model = XGBClassifier(**params, eval_metric="logloss", random_state=42)
     model.fit(X, y)
-    
+
     mlflow.log_metric("accuracy", 0.85)
     mlflow.xgboost.log_model(model, artifact_path="model")
 

@@ -1,12 +1,11 @@
 # src/serving/app.py
-import os
 import glob
+import os
 import time
 from contextlib import asynccontextmanager
 
 import mlflow
 import mlflow.pyfunc
-import numpy as np
 import pandas as pd
 from fastapi import FastAPI, HTTPException, status
 from xgboost import XGBClassifier

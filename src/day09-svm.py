@@ -1,10 +1,9 @@
 # Day 9: Support Vector Machines (SVM) & Kernel Transformations
 # Imports
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+from sklearn.datasets import make_blobs, make_moons
 from sklearn.svm import SVC
-from sklearn.datasets import make_moons, make_blobs
-from sklearn.model_selection import train_test_split
 
 # =====================================================================
 # 1. HAND-CALCULATED TOY DATASET VERIFICATION
@@ -35,22 +34,22 @@ def plot_svm_boundary(clf, X, y, ax, title):
     x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
     y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
     xx, yy = np.meshgrid(np.linspace(x_min, x_max, 300), np.linspace(y_min, y_max, 300))
-    
+
     Z = clf.decision_function(np.c_[xx.ravel(), yy.ravel()]).reshape(xx.shape)
-    
+
     # Plot decision boundary and margins
     ax.contourf(xx, yy, Z, levels=[-100, 0, 100], colors=['#ffaaaa', '#aaffaa'], alpha=0.3)
-    ax.contour(xx, yy, Z, levels=[-1.0, 0.0, 1.0], colors=['k', 'k', 'k'], 
+    ax.contour(xx, yy, Z, levels=[-1.0, 0.0, 1.0], colors=['k', 'k', 'k'],
                linestyles=['--', '-', '--'], linewidths=[1.5, 2.5, 1.5])
-    
+
     # Plot samples
     ax.scatter(X[y == -1, 0], X[y == -1, 1], color="red", label="Class -1", edgecolors="k", alpha=0.7)
     ax.scatter(X[y == 1, 0], X[y == 1, 1], color="green", label="Class +1", edgecolors="k", alpha=0.7)
-    
+
     # Highlight Support Vectors
     sv = clf.support_vectors_
     ax.scatter(sv[:, 0], sv[:, 1], s=120, facecolors="none", edgecolors="black", linewidths=2.0, label="Support Vectors")
-    
+
     ax.set_title(title)
     ax.set_xlabel("x₁")
     ax.set_ylabel("x₂")

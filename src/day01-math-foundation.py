@@ -1,7 +1,8 @@
 from pathlib import Path
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+
 
 def loss_function(w: np.ndarray) -> float:
     """Computes a 2D scalar loss function for housing/model error.
@@ -77,7 +78,7 @@ def plot_math_foundations(current_w: np.ndarray, updated_w: np.ndarray, X: np.nd
     for i, val in enumerate(y_hat):
         ax2.text(i, val + 0.8, f"${val:.2f}", ha='center', fontweight='bold')
     ax2.set_ylim(0, 35)
-    ax2.set_title("3. Forward Pass ($\hat{y} = Xw + b$)")
+    ax2.set_title(r"3. Forward Pass ($\hat{y} = Xw + b$)")
     ax2.set_ylabel("Predicted Fare ($)")
     ax2.grid(axis='y', linestyle=':', alpha=0.6)
 
@@ -103,7 +104,7 @@ def plot_math_foundations(current_w: np.ndarray, updated_w: np.ndarray, X: np.nd
     pdf_axis = (1.0 / (np.sqrt(2 * np.pi) * sigma)) * np.exp(-0.5 * (((x_axis - mu) / sigma) ** 2))
     peak_pdf = (1.0 / (np.sqrt(2 * np.pi) * sigma))
 
-    ax4.plot(x_axis, pdf_axis, color='purple', linewidth=2, label='$\mathcal{N}(\mu=30, \sigma=5)$')
+    ax4.plot(x_axis, pdf_axis, color='purple', linewidth=2, label=r'$\mathcal{N}(\mu=30, \sigma=5)$')
     ax4.scatter([mu], [peak_pdf], color='red', zorder=5, label=f'Peak at x=30 ({peak_pdf:.4f})')
     ax4.set_title("5. Gaussian Probability Density")
     ax4.set_xlabel("Time (mins)")
@@ -154,9 +155,9 @@ def run_math_examples():
         [3.0, 1.0],   # Sample 1
         [10.0, 2.0]   # Sample 2
     ])
-    w = np.array([2.5, 0.5])  
-    b = 2.0                   
-    y_hat = (X @ w) + b       
+    w = np.array([2.5, 0.5])
+    b = 2.0
+    y_hat = (X @ w) + b
     print(f"Feature Matrix X:\n{X}")
     print(f"Weights w: {w}, Bias b: {b}")
     print(f"Predicted Taxi Fares y_hat: ${y_hat}\n")

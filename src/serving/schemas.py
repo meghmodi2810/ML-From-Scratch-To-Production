@@ -1,5 +1,6 @@
 # src/serving/schemas.py
-from pydantic import BaseModel, Field, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
+
 
 class TaxiPredictionRequest(BaseModel):
     """Input payload matching real NYC TLC Yellow Taxi features."""

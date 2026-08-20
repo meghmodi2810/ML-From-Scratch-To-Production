@@ -1,0 +1,29 @@
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+# Include production source code and test directories
+include = ["src/**/*.py", "tests/**/*.py"]
+exclude = [
+    ".venv",
+    ".git",
+    "__pycache__",
+    "algorithms",
+    "math-notes",
+    "airflow",
+    "mlruns",
+    "temp_artifacts",
+    "src/day*.py",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+]
+ignore = [
+    "E501",  # line-too-long (handled by formatter)
+    "E402",  # module level import not at top of file
+]

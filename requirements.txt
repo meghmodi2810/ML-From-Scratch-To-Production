@@ -21,3 +21,4 @@ pandera
 psycopg2-binary>=2.9.9
 boto3>=1.34.0
 pendulum>=3.0.0
+ruff

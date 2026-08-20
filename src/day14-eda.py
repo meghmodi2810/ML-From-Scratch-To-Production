@@ -1,25 +1,22 @@
-import os
-import sys
-import time
 import datetime
+import os
+
+import matplotlib
 import numpy as np
 import pandas as pd
-import matplotlib
 
 matplotlib.use("Agg")
 
 import matplotlib.pyplot as plt
-import seaborn as sns
-
-from scipy import stats
-from sklearn.model_selection import StratifiedKFold
-from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import StandardScaler, OneHotEncoder, OrdinalEncoder
-from sklearn.impute import SimpleImputer
-from sklearn.pipeline import Pipeline
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
-from sklearn.ensemble import HistGradientBoostingClassifier
 from imblearn.over_sampling import SMOTE
+from scipy import stats
+from sklearn.compose import ColumnTransformer
+from sklearn.ensemble import HistGradientBoostingClassifier
+from sklearn.impute import SimpleImputer
+from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score, roc_auc_score
+from sklearn.model_selection import StratifiedKFold
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder, StandardScaler
 
 try:
     from xgboost import XGBClassifier
@@ -136,25 +133,25 @@ print("Starting 15 Manual Experiment Runs (Logging to results.csv)...")
 
 for run_id, params in enumerate(hyperparam_grid, start=1):
     accs, precs, recs, f1s, aucs = [], [], [], [], []
-    
+
     for train_idx, val_idx in cv.split(X, y):
         X_train, y_train = X.iloc[train_idx], y[train_idx]
         X_val, y_val = X.iloc[val_idx], y[val_idx]
-        
+
         # Preprocessing & SMOTE strictly on training fold
         X_tr_proc = preprocessor.fit_transform(X_train)
         X_val_proc = preprocessor.transform(X_val)
-        
+
         smote = SMOTE(random_state=42)
         X_tr_res, y_tr_res = smote.fit_resample(X_tr_proc, y_train)
-        
+
         # Train gradient boosting model
         model = make_classifier(params)
         model.fit(X_tr_res, y_tr_res)
-        
+
         y_pred = model.predict(X_val_proc)
         y_prob = model.predict_proba(X_val_proc)[:, 1]
-        
+
         accs.append(accuracy_score(y_val, y_pred))
         precs.append(precision_score(y_val, y_pred, zero_division=0))
         recs.append(recall_score(y_val, y_pred, zero_division=0))
