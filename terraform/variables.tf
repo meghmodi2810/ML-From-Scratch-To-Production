@@ -64,3 +64,12 @@ variable "key_name" {
   description = "Name of an existing AWS SSH Key Pair (leave blank if not using SSH key)"
   default     = ""
 }
+
+# ---------------------------------------------------------------------
+# CI/CD & OIDC VARIABLES
+# ---------------------------------------------------------------------
+variable "github_repository" {
+  type        = string
+  description = "GitHub repository name (owner/repo) authorized to assume ECR push role"
+  default     = "meghmodi2810/ML-From-Scratch-To-Production"
+}

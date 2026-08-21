@@ -73,3 +73,11 @@ output "ssh_login_command" {
   value       = "ssh -i <your-key.pem> ubuntu@${aws_instance.mlops_server.public_ip}"
   description = "SSH connection string for remote administration"
 }
+
+# ---------------------------------------------------------------------
+# DAY 25: GITHUB ACTIONS OIDC ROLE OUTPUT
+# ---------------------------------------------------------------------
+output "github_actions_role_arn" {
+  value       = aws_iam_role.github_actions_role.arn
+  description = "IAM Role ARN to configure in GitHub Secrets as AWS_ROLE_TO_ASSUME"
+}

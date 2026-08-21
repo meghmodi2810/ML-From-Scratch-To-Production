@@ -1,0 +1,77 @@
+name: Continuous Deployment - Build & Push to ECR
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'src/**'
+      - 'docker/**'
+      - 'requirements*.txt'
+      - '.github/workflows/cd-build.yml'
+  workflow_dispatch:
+
+# OIDC permissions required to request short-lived AWS STS credentials
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_REGION: ap-south-1
+  ECR_REPOSITORY: nyc-taxi-mlops-nyc-taxi-serve-dev
+
+jobs:
+  build-and-push:
+    name: Build FastAPI Container & Push to ECR
+    runs-on: ubuntu-latest
+
+    steps:
+      # ---------------------------------------------------------------
+      # Step 1: Checkout Code
+      # ---------------------------------------------------------------
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # ---------------------------------------------------------------
+      # Step 2: Extract Short Git SHA for Immutable Image Tagging
+      # ---------------------------------------------------------------
+      - name: Set Short Git SHA
+        id: vars
+        run: echo "sha_short=$(echo ${{ github.sha }} | cut -c1-7)" >> $GITHUB_OUTPUT
+
+      # ---------------------------------------------------------------
+      # Step 3: Authenticate with AWS via OpenID Connect (OIDC)
+      # ---------------------------------------------------------------
+      - name: Configure AWS Credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          aws-region: ${{ env.AWS_REGION }}
+          audience: sts.amazonaws.com
+
+      # ---------------------------------------------------------------
+      # Step 4: Log in to Amazon ECR
+      # ---------------------------------------------------------------
+      - name: Log in to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      # ---------------------------------------------------------------
+      # Step 5: Set up Docker Buildx (Layer Caching & Multi-stage)
+      # ---------------------------------------------------------------
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # ---------------------------------------------------------------
+      # Step 6: Build & Push FastAPI Docker Image to ECR
+      # ---------------------------------------------------------------
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./docker/Dockerfile.serve
+          push: true
+          tags: |
+            ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ steps.vars.outputs.sha_short }}
+            ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

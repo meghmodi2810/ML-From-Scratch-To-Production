@@ -103,3 +103,95 @@ resource "aws_iam_instance_profile" "ec2_instance_profile" {
     Name = "${var.project_name}-ec2-profile-${var.environment}"
   }
 }
+
+# ---------------------------------------------------------------------
+# 6. GITHUB ACTIONS OIDC IDENTITY PROVIDER & CD ROLE
+# Enables secure keyless auth from GitHub Actions to push containers to ECR.
+# ---------------------------------------------------------------------
+resource "aws_iam_openid_connect_provider" "github_actions" {
+  url            = "https://token.actions.githubusercontent.com"
+  client_id_list = ["sts.amazonaws.com"]
+  thumbprint_list = [
+    "6938fd4d98bab03faadb97b34396831e3780aea1",
+    "1c58a3a8518e8759bf075b76b750d4f2df264fcd"
+  ]
+
+  tags = {
+    Name = "${var.project_name}-github-oidc-${var.environment}"
+  }
+}
+
+data "aws_iam_policy_document" "github_oidc_assume_role" {
+  statement {
+    effect  = "Allow"
+    actions = ["sts:AssumeRoleWithWebIdentity"]
+
+    principals {
+      type        = "Federated"
+      identifiers = [aws_iam_openid_connect_provider.github_actions.arn]
+    }
+
+    condition {
+      test     = "StringEquals"
+      variable = "token.actions.githubusercontent.com:aud"
+      values   = ["sts.amazonaws.com"]
+    }
+
+    condition {
+      test     = "StringLike"
+      variable = "token.actions.githubusercontent.com:sub"
+      values = [
+        "repo:${var.github_repository}:*",
+        "repo:${var.github_repository}:ref:refs/heads/*"
+      ]
+    }
+  }
+}
+
+resource "aws_iam_role" "github_actions_role" {
+  name               = "${var.project_name}-github-actions-role-${var.environment}"
+  assume_role_policy = data.aws_iam_policy_document.github_oidc_assume_role.json
+
+  tags = {
+    Name        = "${var.project_name}-github-actions-role-${var.environment}"
+    Description = "IAM role for GitHub Actions CI/CD pipeline via OIDC"
+  }
+}
+
+# Policy allowing GitHub Actions to authenticate and push Docker images to ECR
+data "aws_iam_policy_document" "github_actions_ecr_policy_doc" {
+  statement {
+    sid       = "ECRAuthToken"
+    effect    = "Allow"
+    actions   = ["ecr:GetAuthorizationToken"]
+    resources = ["*"]
+  }
+
+  statement {
+    sid    = "ECRPushPull"
+    effect = "Allow"
+    actions = [
+      "ecr:BatchCheckLayerAvailability",
+      "ecr:GetDownloadUrlForLayer",
+      "ecr:BatchGetImage",
+      "ecr:PutImage",
+      "ecr:InitiateLayerUpload",
+      "ecr:UploadLayerPart",
+      "ecr:CompleteLayerUpload",
+      "ecr:DescribeRepositories",
+      "ecr:ListImages"
+    ]
+    resources = [for repo in aws_ecr_repository.ml_repos : repo.arn]
+  }
+}
+
+resource "aws_iam_policy" "github_actions_ecr_policy" {
+  name        = "${var.project_name}-github-ecr-policy-${var.environment}"
+  description = "Allows GitHub Actions to build and push Docker images to ECR"
+  policy      = data.aws_iam_policy_document.github_actions_ecr_policy_doc.json
+}
+
+resource "aws_iam_role_policy_attachment" "github_actions_attach" {
+  role       = aws_iam_role.github_actions_role.name
+  policy_arn = aws_iam_policy.github_actions_ecr_policy.arn
+}
