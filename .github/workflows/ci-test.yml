@@ -1,4 +1,4 @@
-name: MLOps Continuous Testing & Model Quality Gate
+name: Continuous Testing (CI)
 
 on:
   push:
@@ -13,43 +13,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # ---------------------------------------------------------------
       # Step 1: Checkout Repository
-      # ---------------------------------------------------------------
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      # ---------------------------------------------------------------
-      # Step 2: Set up Python with Pip Dependency Caching
-      # ---------------------------------------------------------------
+      # Step 2: Set up Python with Pip Caching
       - name: Set up Python 3.9
         uses: actions/setup-python@v5
         with:
           python-version: "3.9"
           cache: "pip"
 
-      # ---------------------------------------------------------------
       # Step 3: Install Dependencies
-      # ---------------------------------------------------------------
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
           pip install ruff pytest
           pip install -r requirements.txt
 
-      # ---------------------------------------------------------------
-      # Step 4: Layer 1 - Ultra-Fast Code Linting (Ruff)
-      # ---------------------------------------------------------------
+      # Step 4: Layer 1 - Linter Gate (Ruff)
       - name: Run Ruff Linter (Layer 1)
         run: |
           ruff check .
 
-      # ---------------------------------------------------------------
-      # Step 5: Layer 2 & 3 - Pytest Suite & Model Quality Gate
-      # - Validates preprocessing pipelines & schema constraints
-      # - Runs mini-training sanity checks & directional logic tests
-      # - Tests FastAPI model inference endpoints
-      # ---------------------------------------------------------------
+      # Step 5: Layer 2 & 3 - Unit, Schema & Model Quality Gate
       - name: Run Pytest & Model Validation Quality Gate (Layers 2 & 3)
         run: |
           pytest -v --durations=10
