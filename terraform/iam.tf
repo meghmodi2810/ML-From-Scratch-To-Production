@@ -91,6 +91,12 @@ resource "aws_iam_role_policy_attachment" "ec2_policy_attach" {
   policy_arn = aws_iam_policy.ec2_mlops_policy.arn
 }
 
+# Attach AWS SSM core policy so EC2 agent can receive remote deployment commands
+resource "aws_iam_role_policy_attachment" "ec2_ssm_attach" {
+  role       = aws_iam_role.ec2_mlops_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+
 # ---------------------------------------------------------------------
 # 5. IAM INSTANCE PROFILE
 # The AWS bridge/container that passes the IAM role to the EC2 instance.
@@ -159,7 +165,7 @@ resource "aws_iam_role" "github_actions_role" {
   }
 }
 
-# Policy allowing GitHub Actions to authenticate and push Docker images to ECR
+# Policy allowing GitHub Actions to authenticate, push Docker images to ECR, and deploy via SSM
 data "aws_iam_policy_document" "github_actions_ecr_policy_doc" {
   statement {
     sid       = "ECRAuthToken"
@@ -184,11 +190,24 @@ data "aws_iam_policy_document" "github_actions_ecr_policy_doc" {
     ]
     resources = [for repo in aws_ecr_repository.ml_repos : repo.arn]
   }
+
+  statement {
+    sid    = "SSMRemoteDeploy"
+    effect = "Allow"
+    actions = [
+      "ssm:SendCommand",
+      "ssm:GetCommandInvocation",
+      "ssm:ListCommands",
+      "ssm:ListCommandInvocations",
+      "ssm:DescribeInstanceInformation"
+    ]
+    resources = ["*"]
+  }
 }
 
 resource "aws_iam_policy" "github_actions_ecr_policy" {
   name        = "${var.project_name}-github-ecr-policy-${var.environment}"
-  description = "Allows GitHub Actions to build and push Docker images to ECR"
+  description = "Allows GitHub Actions to build and push Docker images to ECR and deploy via SSM"
   policy      = data.aws_iam_policy_document.github_actions_ecr_policy_doc.json
 }
 

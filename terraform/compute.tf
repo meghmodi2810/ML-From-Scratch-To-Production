@@ -85,7 +85,12 @@ resource "aws_instance" "mlops_server" {
               ./aws/install
               rm -rf aws awscliv2.zip
 
-              # 6. Mark bootstrapping as complete
+              # 6. Ensure Amazon SSM Agent is active for zero-touch deployments
+              snap install amazon-ssm-agent --classic || true
+              systemctl enable snap.amazon-ssm-agent.amazon-ssm-agent.service || true
+              systemctl restart snap.amazon-ssm-agent.amazon-ssm-agent.service || true
+
+              # 7. Mark bootstrapping as complete
               echo "NYC Taxi MLOps Server Bootstrap Completed at $(date)" > /var/log/user_data_complete.log
               EOF
 
