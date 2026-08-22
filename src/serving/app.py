@@ -47,7 +47,22 @@ async def lifespan(app: FastAPI):
         y_real = real_df["high_tip_indicator"].values
         app.state.preprocessor.fit(X_real)
     else:
-        raise RuntimeError(f"No real dataset found in {DATA_DIR}! Please place Yellow Taxi files in /data.")
+        print(f"[Startup WARNING] No dataset found in '{DATA_DIR}'. Fitting preprocessor on baseline reference schema sample.")
+        baseline_df = pd.DataFrame({
+            "trip_distance": [1.0, 2.5, 5.0, 10.0, 15.0, 0.5, 3.2, 8.0] * 100,
+            "fare_amount": [5.0, 12.0, 20.0, 45.0, 60.0, 4.0, 14.5, 35.0] * 100,
+            "tolls_amount": [0.0, 0.0, 6.55, 6.55, 12.5, 0.0, 0.0, 6.55] * 100,
+            "passenger_count": [1.0, 2.0, 1.0, 4.0, 1.0, 1.0, 2.0, 1.0] * 100,
+            "PULocationID": ["161", "236", "132", "138", "161", "236", "132", "138"] * 100,
+            "DOLocationID": ["236", "161", "138", "132", "236", "161", "138", "132"] * 100,
+            "payment_type": ["1", "2", "1", "1", "2", "1", "2", "1"] * 100,
+            "RatecodeID": ["1", "1", "2", "1", "1", "1", "2", "1"] * 100,
+            "high_tip_indicator": [0, 1, 1, 1, 0, 0, 1, 1] * 100
+        })
+        X_real = baseline_df.drop("high_tip_indicator", axis=1)
+        y_real = baseline_df["high_tip_indicator"].values
+        app.state.preprocessor.fit(X_real)
+        app.state.data_source = "Baseline Reference Sample"
 
     # Load from MLflow or train on real data
     try:
