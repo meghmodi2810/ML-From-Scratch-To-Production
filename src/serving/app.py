@@ -70,9 +70,9 @@ async def lifespan(app: FastAPI):
         app.state.model_version = MODEL_STAGE
         print(f"[Startup] Loaded model from MLflow Registry ({MODEL_URI})")
     except Exception as e:
-        print(f"[Startup INFO] MLflow registry load skipped ({e}). Training warm model on real data.")
+        print(f"[Startup INFO] MLflow registry load skipped ({e}). Training warm model on baseline data.")
         X_proc = app.state.preprocessor.transform(X_real)
-        clf = XGBClassifier(n_estimators=50, max_depth=4, learning_rate=0.08, eval_metric="logloss", random_state=42)
+        clf = XGBClassifier(n_estimators=10, max_depth=3, learning_rate=0.1, eval_metric="logloss", random_state=42)
         clf.fit(X_proc, y_real)
         app.state.model = clf
         app.state.model_version = "real-data-baseline-v1"

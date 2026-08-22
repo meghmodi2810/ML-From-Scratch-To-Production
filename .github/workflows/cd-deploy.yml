@@ -56,9 +56,10 @@ jobs:
               "docker stop nyc-taxi-serve || true",
               "docker rm nyc-taxi-serve || true",
               "docker run -d --name nyc-taxi-serve --restart always -p 8000:8000 $(aws sts get-caller-identity --query Account --output text).dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}:latest",
-              "echo \"[4/5] Verifying endpoint health with exponential backoff...\"",
-              "sleep 8",
-              "curl --fail --retry 10 --retry-delay 3 http://localhost:8000/health || (echo \"❌ Health check failed! Dumping container logs:\" && docker logs nyc-taxi-serve && exit 1)",
+              "echo \"[4/5] Verifying endpoint health with polling...\"",
+              "HEALTH_OK=0",
+              "for i in $(seq 1 12); do if curl -s -f http://localhost:8000/health > /dev/null; then echo \"[Health Check] Passed on attempt $i!\"; HEALTH_OK=1; break; fi; echo \"[Health Check] Waiting for server (attempt $i/12)...\"; sleep 3; done",
+              "if [ $HEALTH_OK -eq 0 ]; then echo \"❌ Health check failed after 12 attempts! Dumping container logs:\"; docker logs --tail 50 nyc-taxi-serve; exit 1; fi",
               "echo \"[5/5] Cleaning dangling Docker image layers...\"",
               "docker image prune -f",
               "echo \"✅ FastAPI Model Serving Container successfully deployed and healthy!\""
