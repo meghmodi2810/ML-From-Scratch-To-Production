@@ -18,10 +18,12 @@ env:
   ECR_REPOSITORY: nyc-taxi-mlops-nyc-taxi-serve-dev
 
 jobs:
+  # ===================================================================
+  # JOB: BUILD DOCKER IMAGE & PUSH TO ECR
+  # ===================================================================
   build-and-push:
     name: Build FastAPI Container & Push to ECR
     runs-on: ubuntu-latest
-    # Only run if the CI workflow completed with 'success' or if triggered manually
     if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
 
     steps:
@@ -41,7 +43,7 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           aws-region: ${{ env.AWS_REGION }}
           audience: sts.amazonaws.com
-          role-session-name: GitHubActions-${{ github.run_id }}
+          role-session-name: GitHubActions-Build-${{ github.run_id }}
 
       # Step 4: Log in to Amazon ECR
       - name: Log in to Amazon ECR
