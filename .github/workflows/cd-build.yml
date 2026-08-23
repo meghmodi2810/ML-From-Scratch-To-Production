@@ -15,14 +15,15 @@ permissions:
 
 env:
   AWS_REGION: ap-south-1
-  ECR_REPOSITORY: nyc-taxi-mlops-nyc-taxi-serve-dev
+  ECR_SERVE_REPO: nyc-taxi-mlops-nyc-taxi-serve-dev
+  ECR_LAMBDA_REPO: nyc-taxi-mlops-nyc-taxi-lambda-dev
 
 jobs:
   # ===================================================================
-  # JOB: BUILD DOCKER IMAGE & PUSH TO ECR
+  # JOB: BUILD & PUSH BOTH EC2 AND LAMBDA DOCKER CONTAINERS TO ECR
   # ===================================================================
   build-and-push:
-    name: Build FastAPI Container & Push to ECR
+    name: Build & Push EC2 and Serverless Containers to ECR
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
 
@@ -54,15 +55,30 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      # Step 6: Build & Push FastAPI Docker Image to Amazon ECR
-      - name: Build and Push Docker Image
+      # Step 6: Build & Push EC2 Serving Container (Dockerfile.serve)
+      - name: Build & Push EC2 Serving Container
         uses: docker/build-push-action@v5
         with:
           context: .
           file: ./docker/Dockerfile.serve
           push: true
+          provenance: false # AWS Lambda & EC2 compatible manifest format
           tags: |
-            ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ steps.vars.outputs.sha_short }}
-            ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+            ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_SERVE_REPO }}:${{ steps.vars.outputs.sha_short }}
+            ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_SERVE_REPO }}:latest
+          cache-from: type=gha,scope=serve
+          cache-to: type=gha,mode=max,scope=serve
+
+      # Step 7: Build & Push Serverless Lambda Container (Dockerfile.lambda)
+      - name: Build & Push Serverless Lambda Container
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./docker/Dockerfile.lambda
+          push: true
+          provenance: false # CRITICAL: Disables OCI provenance attestations required by AWS Lambda
+          tags: |
+            ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_LAMBDA_REPO }}:${{ steps.vars.outputs.sha_short }}
+            ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_LAMBDA_REPO }}:latest
+          cache-from: type=gha,scope=lambda
+          cache-to: type=gha,mode=max,scope=lambda
