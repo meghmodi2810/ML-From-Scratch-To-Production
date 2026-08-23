@@ -81,3 +81,26 @@ output "github_actions_role_arn" {
   value       = aws_iam_role.github_actions_role.arn
   description = "IAM Role ARN to configure in GitHub Secrets as AWS_ROLE_TO_ASSUME"
 }
+
+# ---------------------------------------------------------------------
+# DAY 27: SERVERLESS INFERENCE (LAMBDA + API GATEWAY) OUTPUTS
+# ---------------------------------------------------------------------
+output "serverless_api_gateway_url" {
+  value       = aws_apigatewayv2_api.http_api.api_endpoint
+  description = "Base HTTPS endpoint URL for the serverless API Gateway"
+}
+
+output "serverless_predict_endpoint" {
+  value       = "${aws_apigatewayv2_api.http_api.api_endpoint}/predict"
+  description = "Serverless HTTP POST endpoint for NYC Taxi tip predictions ($0 at idle)"
+}
+
+output "serverless_health_endpoint" {
+  value       = "${aws_apigatewayv2_api.http_api.api_endpoint}/health"
+  description = "Serverless HTTP GET healthcheck endpoint"
+}
+
+output "lambda_function_name" {
+  value       = aws_lambda_function.mlops_lambda.function_name
+  description = "Name of the provisioned serverless ML inference Lambda function"
+}

@@ -25,8 +25,8 @@ variable "s3_bucket_prefix" {
 
 variable "ecr_repository_names" {
   type        = list(string)
-  description = "List of ECR repositories to provision for ML training and serving"
-  default     = ["nyc-taxi-train", "nyc-taxi-serve"]
+  description = "List of ECR repositories to provision for ML training, EC2 serving, and serverless Lambda"
+  default     = ["nyc-taxi-train", "nyc-taxi-serve", "nyc-taxi-lambda"]
 }
 
 # ---------------------------------------------------------------------
