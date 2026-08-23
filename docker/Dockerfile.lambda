@@ -4,12 +4,7 @@
 # =====================================================================
 FROM public.ecr.aws/lambda/python:3.11
 
-# Install build dependencies for C-extensions
-RUN microdnf update -y && \
-    microdnf install -y gcc gcc-c++ make && \
-    microdnf clean all
-
-# Install Python ML dependencies
+# Install Python ML dependencies (uses pre-compiled manylinux binary wheels)
 COPY requirements-serve.txt ${LAMBDA_TASK_ROOT}/
 RUN pip install --no-cache-dir --upgrade pip setuptools wheel && \
     pip install --no-cache-dir -r ${LAMBDA_TASK_ROOT}/requirements-serve.txt
