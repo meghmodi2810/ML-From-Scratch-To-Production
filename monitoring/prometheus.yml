@@ -1,0 +1,30 @@
+# monitoring/prometheus.yml
+# =====================================================================
+# Prometheus Scraper Configuration for NYC Taxi MLOps Production
+# =====================================================================
+global:
+  scrape_interval: 5s       # Scrape targets every 5 seconds for responsive telemetry
+  evaluation_interval: 5s  # Evaluate alert rules every 5 seconds
+
+scrape_configs:
+  # -------------------------------------------------------------------
+  # 1. FastAPI Model Serving Telemetry
+  # -------------------------------------------------------------------
+  - job_name: "nyc-taxi-serving"
+    metrics_path: "/metrics"
+    static_configs:
+      - targets:
+          - "localhost:8000"          # Direct host process
+          - "host.docker.internal:8000" # Docker Desktop host
+          - "nyc-taxi-serve:8000"     # Docker Compose network
+        labels:
+          environment: "production"
+          service: "fastapi-inference"
+          model: "TLC_Yellow_Taxi_Tip_Predictor"
+
+  # -------------------------------------------------------------------
+  # 2. Prometheus Self-Monitoring
+  # -------------------------------------------------------------------
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]

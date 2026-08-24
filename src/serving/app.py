@@ -7,10 +7,20 @@ from contextlib import asynccontextmanager
 import mlflow
 import mlflow.pyfunc
 import pandas as pd
-from fastapi import FastAPI, HTTPException, status
+from fastapi import FastAPI, HTTPException, Request, Response, status
+from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
 from xgboost import XGBClassifier
 
 from src.features.preprocess_serve import build_preprocessor, prepare_real_taxi_dataset
+from src.serving.metrics import (
+    HTTP_REQUEST_DURATION_SECONDS,
+    HTTP_REQUESTS_TOTAL,
+    TAXI_FEATURE_FARE_AMOUNT,
+    TAXI_FEATURE_TRIP_DISTANCE,
+    TAXI_MODEL_LOAD_STATUS,
+    TAXI_PREDICTION_PROBABILITY,
+    TAXI_PREDICTIONS_TOTAL,
+)
 from src.serving.schemas import (
     HealthCheckResponse,
     TaxiPredictionRequest,
@@ -25,6 +35,7 @@ MODEL_STAGE = os.getenv("MODEL_STAGE", "Production")
 MODEL_URI = os.getenv("MODEL_URI", f"models:/{MODEL_NAME}/{MODEL_STAGE}")
 
 mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -47,7 +58,7 @@ async def lifespan(app: FastAPI):
         y_real = real_df["high_tip_indicator"].values
         app.state.preprocessor.fit(X_real)
     else:
-        print(f"[Startup WARNING] No dataset found in '{DATA_DIR}'. Fitting preprocessor on baseline reference schema sample.")
+        print(f"[Startup WARNING] No dataset found in '{DATA_DIR}'. Fitting preprocessor on baseline reference sample.")
         baseline_df = pd.DataFrame({
             "trip_distance": [1.0, 2.5, 5.0, 10.0, 15.0, 0.5, 3.2, 8.0] * 100,
             "fare_amount": [5.0, 12.0, 20.0, 45.0, 60.0, 4.0, 14.5, 35.0] * 100,
@@ -77,16 +88,54 @@ async def lifespan(app: FastAPI):
         app.state.model = clf
         app.state.model_version = "real-data-baseline-v1"
 
+    # Update Prometheus Model Readiness Gauge
+    TAXI_MODEL_LOAD_STATUS.labels(model_name=MODEL_NAME, model_version=app.state.model_version).set(1)
+
     yield
 
     print("[Shutdown] Cleaning up server resources.")
+    TAXI_MODEL_LOAD_STATUS.labels(model_name=MODEL_NAME, model_version=getattr(app.state, "model_version", "unknown")).set(0)
+
 
 app = FastAPI(
     title="NYC TLC Yellow Taxi Tip Prediction Service",
-    description="Real-time ML inference API running on real TLC Yellow Taxi data.",
+    description="Production-grade ML inference API with Prometheus observability & telemetry.",
     version="1.0.0",
     lifespan=lifespan
 )
+
+
+# =====================================================================
+# PROMETHEUS TELEMETRY MIDDLEWARE
+# =====================================================================
+@app.middleware("http")
+async def prometheus_telemetry_middleware(request: Request, call_next):
+    """Measures request latency and increments request counts by status code and endpoint."""
+    start_time = time.perf_counter()
+    endpoint = request.url.path
+
+    # Process request
+    response = await call_next(request)
+
+    # Compute execution duration in seconds
+    duration = time.perf_counter() - start_time
+
+    # Record Prometheus metrics (avoid explosion on non-standard dynamic paths)
+    normalized_path = endpoint if endpoint in ["/predict", "/health", "/metrics", "/docs", "/openapi.json"] else "other"
+    HTTP_REQUEST_DURATION_SECONDS.labels(method=request.method, endpoint=normalized_path).observe(duration)
+    HTTP_REQUESTS_TOTAL.labels(method=request.method, endpoint=normalized_path, status_code=response.status_code).inc()
+
+    return response
+
+
+# =====================================================================
+# API ROUTES
+# =====================================================================
+@app.get("/metrics", tags=["Observability"])
+async def metrics():
+    """Exposes Prometheus time-series metrics in standard exposition format."""
+    return Response(content=generate_latest(), media_type=CONTENT_TYPE_LATEST)
+
 
 @app.get("/health", response_model=HealthCheckResponse, status_code=status.HTTP_200_OK, tags=["Monitoring"])
 async def health_check():
@@ -99,9 +148,10 @@ async def health_check():
         model_uri=MODEL_URI
     )
 
+
 @app.post("/predict", response_model=TaxiPredictionResponse, status_code=status.HTTP_200_OK, tags=["Inference"])
 async def predict(request: TaxiPredictionRequest):
-    """Real-time scoring endpoint for taxi ride features."""
+    """Real-time scoring endpoint for taxi ride features with telemetry recording."""
     if not hasattr(app.state, "model") or app.state.model is None:
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
@@ -130,6 +180,14 @@ async def predict(request: TaxiPredictionRequest):
         )
 
     latency_ms = (time.perf_counter() - start_time) * 1000.0
+
+    # -----------------------------------------------------------------
+    # RECORD DOMAIN & ML TELEMETRY METRICS
+    # -----------------------------------------------------------------
+    TAXI_PREDICTIONS_TOTAL.labels(prediction_class=str(pred_class), model_version=app.state.model_version).inc()
+    TAXI_PREDICTION_PROBABILITY.labels(model_version=app.state.model_version).observe(prob_high_tip)
+    TAXI_FEATURE_FARE_AMOUNT.observe(request.fare_amount)
+    TAXI_FEATURE_TRIP_DISTANCE.observe(request.trip_distance)
 
     return TaxiPredictionResponse(
         high_tip_prediction=pred_class,
