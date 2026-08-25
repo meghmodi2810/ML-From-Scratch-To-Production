@@ -150,7 +150,7 @@ async def health_check():
 
 
 @app.post("/predict", response_model=TaxiPredictionResponse, status_code=status.HTTP_200_OK, tags=["Inference"])
-async def predict(request: TaxiPredictionRequest):
+def predict(request: TaxiPredictionRequest):
     """Real-time scoring endpoint for taxi ride features with telemetry recording."""
     if not hasattr(app.state, "model") or app.state.model is None:
         raise HTTPException(

@@ -1,8 +1,7 @@
 # monitoring/docker-compose.monitoring.yml
 # =====================================================================
-# Local & EC2 Prometheus + Grafana Observability Stack
+# Local & EC2 Prometheus + Grafana Observability Stack & Load Tester
 # =====================================================================
-version: '3.8'
 
 services:
   prometheus:
@@ -38,6 +37,20 @@ services:
     depends_on:
       - prometheus
 
+  locust:
+    image: locustio/locust:2.32.0
+    container_name: nyc-taxi-locust
+    ports:
+      - "8089:8089"
+    volumes:
+      - ../tests/locustfile.py:/mnt/locust/locustfile.py:ro
+    command: -f /mnt/locust/locustfile.py --host http://host.docker.internal:8000
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    profiles:
+      - loadtest
+
 volumes:
   prometheus_data:
   grafana_data:
+
